@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#4a2f1a">
+<meta name="description" content="Aethoria — serveur Minecraft médiéval RP. Bâtissez votre royaume, forgez des alliances, écrivez votre légende.">
+<title>Accueil | Aethoria</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Aethoria v18 — mise en page « royaume » + textures parchemin / bois ===== */
+:root{
+    --wood:#4a2f1a; --wood-deep:#2f1d0f;
+    --ink:#3b2a17; --stone:#6c5736;
+    --parchment:#d8c397; --tile:#dfca9f; --tile-hi:#ebdbb2;
+    --cream:#f3e6c4; --gold:#d9b86a; --edge:#c1a477; --rivet:#8a6f45;
+    --orange:#7a4a0e; --blue:#3c6375; --purple:#6b4c70; --green:#2f6a2a;
+    --teal:#406562; --red:#a23a2c; --slate:#545b5f;
+    --pix:'Pixelify Sans','Courier New',monospace;
+    --t-wood:url(bois.jpg); --t-deep:url(bois-sombre.jpg);
+    --t-paper:url(parchemin.jpg); --t-light:url(parchemin-clair.jpg);
+    --hard:6px 6px 0 rgba(0,0,0,.42);
+    --hard-paper:6px 6px 0 rgba(59,42,23,.4);
+    --wrap:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{font-family:var(--pix);font-size:17px;line-height:1.6;color:var(--ink);background:var(--wood) var(--t-wood);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+h1,h2,h3{font-weight:700;line-height:1.2}
+::selection{background:var(--green);color:var(--cream)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 5%}
+section{position:relative}
+
+/* ---------- sections ---------- */
+.band{padding:112px 0;background:var(--wood) var(--t-wood)}
+.band.deep{background:var(--wood-deep) var(--t-deep)}
+.paper{padding:120px 0;background:#d5c195 var(--t-paper);z-index:1}
+.paper::before,.paper::after{content:"";position:absolute;left:0;right:0;height:26px;background:url(bord-parchemin.png) repeat-x left bottom/1024px 26px;pointer-events:none;z-index:3}
+.paper::before{top:-25px}
+.paper::after{bottom:-25px;transform:scaleY(-1)}
+.edge-top{border-top:4px solid var(--edge)}
+
+/* ---------- titres ---------- */
+.head{text-align:center;max-width:640px;margin:0 auto 56px}
+.head h2{font-size:clamp(28px,3.8vw,46px);text-transform:uppercase;letter-spacing:.03em;color:var(--cream);text-shadow:3px 3px 0 rgba(0,0,0,.45)}
+.head p{margin-top:14px;color:var(--edge)}
+.head h2::after{content:"";display:block;height:10px;width:160px;margin:18px auto 0;
+    background:
+        linear-gradient(var(--o,var(--gold)),var(--o,var(--gold))) center/8px 8px no-repeat,
+        linear-gradient(var(--o,var(--gold)),var(--o,var(--gold))) 0 center/58px 2px no-repeat,
+        linear-gradient(var(--o,var(--gold)),var(--o,var(--gold))) 100% center/58px 2px no-repeat}
+.paper .head h2{color:var(--ink);text-shadow:none}
+.paper .head h2::after{--o:var(--rivet)}
+.paper .head p{color:var(--stone)}
+
+/* ---------- briques ---------- */
+.tag{display:inline-block;padding:2px 10px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cream);background:var(--c,var(--orange));border:2px solid rgba(0,0,0,.25)}
+.tag.red{--c:var(--red)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;font-family:var(--pix);font-size:16px;font-weight:600;color:var(--ink);
+    background:var(--tile-hi);border:2px solid var(--edge);border-left:6px solid var(--c,var(--orange));cursor:pointer;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.38),inset 0 -3px 0 rgba(0,0,0,.2),4px 4px 0 rgba(0,0,0,.42);
+    transition:transform .12s,box-shadow .12s,background .12s}
+.btn:hover{transform:translate(-1px,-1px);background:#f3e6c0;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),inset 0 -3px 0 rgba(0,0,0,.2),5px 5px 0 rgba(0,0,0,.42)}
+.btn:active{transform:translate(2px,2px);box-shadow:inset 0 2px 0 rgba(0,0,0,.18),1px 1px 0 rgba(0,0,0,.42)}
+.btn svg{width:16px;height:16px;flex:none}
+.btn-green{background:var(--green);color:var(--cream);border-color:#244f20;--c:#86c677}
+.btn-green:hover{background:#3a7b34}
+.btn-off{background:rgba(216,195,151,.5);color:var(--stone);border:2px dashed var(--edge);border-left:6px solid var(--slate);box-shadow:none;cursor:not-allowed}
+.btn-off:hover{transform:none;box-shadow:none;background:rgba(216,195,151,.5)}
+.frame{background:var(--parchment) var(--t-light);border:3px solid var(--edge);padding:8px;box-shadow:var(--hard)}
+.frame img{width:100%}
+.panel{position:relative;background:var(--parchment) var(--t-light);border:3px solid var(--edge);box-shadow:var(--hard)}
+.panel::before{content:"";position:absolute;inset:7px;pointer-events:none;border:1px solid rgba(138,111,69,.5)}
+.paper .panel,.paper .frame{box-shadow:var(--hard-paper);border-color:#b39a68}
+.lift{transition:transform .15s,box-shadow .15s}
+.lift:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 rgba(0,0,0,.42)}
+.paper .lift:hover{box-shadow:9px 9px 0 rgba(59,42,23,.4)}
+
+/* ---------- en-tête ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 5%;
+    background:linear-gradient(180deg,rgba(30,17,8,.7),rgba(30,17,8,0));transition:background .25s,box-shadow .25s,padding .25s}
+header.solid{background:var(--wood) var(--t-wood);box-shadow:0 4px 0 rgba(0,0,0,.35);padding:10px 5%}
+header.solid::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--edge)}
+.logo{font-size:26px;font-weight:700;letter-spacing:.14em;color:var(--cream);text-shadow:3px 3px 0 var(--red)}
+.logo:hover{color:var(--gold)}
+nav{display:flex;align-items:center;gap:4px}
+nav a{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;font-size:16px;color:var(--cream);text-shadow:2px 2px 0 rgba(0,0,0,.5);border-bottom:3px solid transparent;transition:color .15s,border-color .15s}
+nav a:hover{color:var(--gold);border-color:var(--gold)}
+nav .tag{font-size:11px;padding:0 7px;text-shadow:none}
+.cta-nav{display:flex;gap:10px;align-items:center}
+.cta-nav .btn{padding:8px 18px;font-size:15px}
+.burger{display:none;width:44px;height:40px;background:var(--tile-hi);border:2px solid var(--edge);border-left:5px solid var(--red);cursor:pointer;box-shadow:3px 3px 0 rgba(0,0,0,.4);position:relative}
+.burger i,.burger i::before,.burger i::after{position:absolute;left:11px;width:18px;height:3px;background:var(--ink)}
+.burger i{top:17px}.burger i::before,.burger i::after{content:"";left:0}.burger i::before{top:-7px}.burger i::after{top:7px}
+
+/* ---------- hero ---------- */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:var(--wood-deep)}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(1.05);animation:drift 40s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.07)}}
+.hero-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,transparent 40%,rgba(20,10,4,.6) 100%),linear-gradient(180deg,rgba(30,17,8,.3),rgba(30,17,8,.1) 40%,rgba(47,29,15,.9) 100%)}
+.hero-in{position:relative;z-index:2;padding:130px 5% 110px}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:6px 16px;margin-bottom:26px;font-size:15px;color:var(--ink);background:var(--tile-hi);border:2px solid var(--edge);border-left:6px solid var(--green);box-shadow:3px 3px 0 rgba(0,0,0,.42)}
+.pill b{width:10px;height:10px;background:#4caf46;box-shadow:0 0 0 3px rgba(76,175,70,.3)}
+.hero-logo{width:min(660px,88%);margin:0 auto;filter:drop-shadow(5px 5px 0 rgba(0,0,0,.55))}
+.hero-sub{max-width:30ch;margin:26px auto 40px;font-size:clamp(20px,2.4vw,27px);line-height:1.4;color:var(--cream);text-shadow:2px 2px 0 rgba(0,0,0,.65)}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.chev{position:absolute;z-index:2;bottom:34px;left:calc(50% - 10px);width:20px;height:20px;border-right:4px solid var(--cream);border-bottom:4px solid var(--cream);transform:rotate(45deg);animation:bob 1.6s ease-in-out infinite;opacity:.85}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(45deg)}50%{transform:translateY(8px) rotate(45deg)}}
+
+/* ---------- à la une ---------- */
+.news{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{position:relative;display:block;aspect-ratio:3/4;overflow:hidden;border:3px solid var(--edge);box-shadow:var(--hard);background:var(--wood-deep)}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card:hover img{transform:scale(1.06)}
+.card .cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px 16px;background:var(--parchment) var(--t-light);border-top:3px solid var(--edge);border-left:6px solid var(--c,var(--orange))}
+.card .cap h3{font-size:18px;margin-top:8px;line-height:1.25}
+
+/* ---------- à propos ---------- */
+.about-in{display:grid;grid-template-columns:1fr 1.15fr;gap:64px;align-items:center}
+.about-in img{aspect-ratio:4/3;object-fit:cover;object-position:60% 50%}
+.about-text h2{font-size:clamp(26px,3.2vw,40px);text-transform:uppercase;margin-bottom:20px}
+.about-text h2 em{font-style:normal;color:var(--red)}
+.about-text p{color:var(--stone);font-size:19px;line-height:1.7}
+.about-text p b{color:var(--ink)}
+
+/* ---------- l'univers ---------- */
+.realms{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.realm{display:flex;flex-direction:column}
+.realm .pic{position:relative;border-bottom:3px solid var(--edge);overflow:hidden}
+.realm .pic img{aspect-ratio:4/3;object-fit:cover;width:100%;transition:transform .5s}
+.realm:hover .pic img{transform:scale(1.06)}
+.realm .seal{position:absolute;top:14px;left:14px;width:58px;height:58px;display:grid;place-items:center;font-size:34px;font-weight:700;color:var(--ink);background:var(--tile-hi);border:3px solid var(--edge);border-bottom:6px solid var(--c);box-shadow:3px 3px 0 rgba(0,0,0,.4)}
+.realm .body{padding:26px 26px 30px;border-left:6px solid var(--c);flex:1;display:flex;flex-direction:column;align-items:flex-start}
+.realm h3{font-size:26px;margin-bottom:10px}
+.realm p{color:var(--stone);margin-bottom:18px;flex:1}
+
+/* ---------- blocs alternés ---------- */
+.feature{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center;margin-bottom:104px}
+.feature:last-child{margin-bottom:0}
+.feature.rev .frame{order:2}
+.feature .frame img{aspect-ratio:16/10;object-fit:cover}
+.feature h2{font-size:clamp(25px,3vw,38px);text-transform:uppercase;margin:16px 0 16px}
+.feature h2 em{font-style:normal;color:var(--red)}
+.feature p{color:var(--stone);font-size:18px;line-height:1.7}
+
+/* ---------- pourquoi ---------- */
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.why .panel{padding:30px 24px 28px;border-left:6px solid var(--c)}
+.why .n{font-size:44px;font-weight:700;line-height:1;color:var(--c);margin-bottom:14px}
+.why h3{font-size:20px;margin-bottom:8px}
+.why p{color:var(--stone);font-size:16px;line-height:1.55}
+.why .panel::before{display:none}
+
+/* ---------- carte ---------- */
+.maps{display:grid;grid-template-columns:1fr 1.78fr;gap:24px;align-items:start}
+.maps figure{position:relative}
+.maps img{height:auto}
+.maps figcaption{position:absolute;left:20px;bottom:20px;padding:4px 12px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--cream);background:rgba(47,29,15,.88);border-left:4px solid var(--gold)}
+
+/* ---------- galerie ---------- */
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.gal figure{border-left:7px solid var(--c)}
+.gal img{aspect-ratio:4/3;object-fit:cover}
+.gal figcaption{padding:12px 4px 2px;font-size:16px;color:var(--stone)}
+
+/* ---------- boutique wip ---------- */
+.shop{max-width:780px;margin:0 auto;padding:52px 6% 56px;text-align:center}
+.shop h2{font-size:clamp(26px,3.2vw,38px);text-transform:uppercase;margin:18px 0 14px}
+.shop p{max-width:46ch;margin:0 auto 28px;color:var(--stone)}
+
+/* ---------- appel final ---------- */
+.final{padding:120px 0;overflow:hidden}
+.final-bg{position:absolute;inset:0;z-index:0}
+.final-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.5) sepia(.25)}
+.final-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(47,29,15,.85),rgba(47,29,15,.35) 30%,rgba(47,29,15,.5) 70%,rgba(47,29,15,.92))}
+.final .panel{position:relative;z-index:2;max-width:880px;margin:0 auto;padding:54px 6% 56px;text-align:center;border-left:8px solid var(--red)}
+.final h2{font-size:clamp(28px,3.8vw,46px);text-transform:uppercase;margin-bottom:14px}
+.final h2 em{font-style:normal;color:var(--red)}
+.final .lead{max-width:50ch;margin:0 auto 30px;color:var(--stone)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:34px;text-align:left}
+.step{background:rgba(214,193,148,.8);border-left:5px solid var(--c);padding:16px 18px}
+.step b{display:block;font-size:13px;letter-spacing:.12em;color:var(--c);margin-bottom:4px}
+.step span{font-weight:600;line-height:1.3;display:block}
+.cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.ip{display:inline-flex;align-items:center;gap:16px;padding:10px 10px 10px 24px;background:var(--tile-hi);border:3px solid var(--edge);border-left:7px solid var(--green);box-shadow:4px 4px 0 rgba(59,42,23,.4)}
+.ip span{font-size:clamp(17px,2.4vw,22px);font-weight:600}
+.copy{display:inline-flex;align-items:center;height:44px;padding:0 18px;background:var(--green);color:var(--cream);border:2px solid #244f20;cursor:pointer;font-family:var(--pix);font-size:15px;box-shadow:inset 0 2px 0 rgba(255,255,255,.28),inset 0 -3px 0 rgba(0,0,0,.25),3px 3px 0 rgba(0,0,0,.35)}
+.copy:hover{background:#3a7b34}
+
+/* ---------- chiffres ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;text-align:center}
+.stat{position:relative;padding:34px 20px 36px;background:var(--parchment) var(--t-light);border:3px solid var(--edge);box-shadow:var(--hard)}
+.stat::after{content:"";position:absolute;left:0;bottom:0;height:5px;width:var(--w,60%);background:var(--c)}
+.stat b{display:block;font-size:clamp(30px,4vw,46px);line-height:1.1;color:var(--ink)}
+.stat span{color:var(--stone);font-size:16px}
+
+/* ---------- pied ---------- */
+footer{background:var(--wood) var(--t-wood);border-top:4px solid var(--edge);padding:64px 0 28px;color:var(--edge);font-size:16px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;margin-bottom:42px}
+footer h4{color:var(--gold);font-size:17px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+footer ul{list-style:none}footer li{margin-bottom:9px}
+footer a{color:var(--cream)}footer a:hover{color:var(--gold)}
+.legal{padding-top:24px;border-top:2px solid rgba(193,164,119,.25);text-align:center;font-size:15px}
+
+/* ---------- apparition ---------- */
+.js .rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.js .rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.hero-bg img,.chev{animation:none}.js .rv{opacity:1;transform:none;transition:none}}
+
+/* ---------- adaptatif ---------- */
+@media(max-width:1020px){
+    .burger{display:block}
+    nav{display:none;position:fixed;top:64px;left:3%;right:3%;flex-direction:column;align-items:stretch;gap:0;padding:12px;background:var(--parchment) var(--t-light);border:3px solid var(--edge);box-shadow:var(--hard)}
+    nav.open{display:flex}
+    nav a{color:var(--ink);text-shadow:none;padding:12px 14px;border-bottom:2px solid rgba(138,111,69,.25)}
+    nav a:last-child{border-bottom:0}
+    .cta-nav .btn-solo{display:none}
+    .news{grid-template-columns:1fr 1fr}
+    .about-in,.feature{grid-template-columns:1fr;gap:34px}
+    .feature.rev .frame{order:0}
+    .realms{grid-template-columns:1fr}
+    .why{grid-template-columns:1fr 1fr}
+    .maps{grid-template-columns:1fr}
+    .gal{grid-template-columns:1fr 1fr}.gal figure:nth-child(3){display:none}
+    .steps{grid-template-columns:1fr}
+    .fgrid{grid-template-columns:1fr;gap:30px}
+    .band{padding:78px 0}.paper{padding:84px 0}
+}
+@media(max-width:600px){
+    .news,.why,.gal,.stats{grid-template-columns:1fr}
+    .gal figure:nth-child(3){display:block}
+    .logo{font-size:22px}
+    .pill{font-size:13px;padding:6px 12px}
+    .hero-btns .btn{width:100%;justify-content:center}
+    .ip{flex-wrap:wrap;justify-content:center;padding:12px}
+}
+</style>
+</head>
+<body>
+
+<header id="bar">
+    <a class="logo" href="#top">AETHORIA</a>
+    <nav id="nav">
+        <a href="#top">Accueil</a>
+        <a href="#univers">L'univers</a>
+        <a href="#carte">Carte</a>
+        <a href="#modpack">ModPack</a>
+        <a href="#boutique">Boutique <span class="tag red">WIP</span></a>
+        <a href="https://discord.gg/pdawT2pS3z" target="_blank" rel="noopener">Discord</a>
+    </nav>
+    <div class="cta-nav">
+        <a class="btn btn-green btn-solo" href="https://aethoria-mc.github.io/aethoria/" target="_blank" rel="noopener">ModPack</a>
+        <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><i></i></button>
+    </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+    <div class="hero-bg"><img src="castle-dusk.jpg" alt=""></div>
+    <div class="hero-in">
+        <div class="pill"><b></b>Java 1.20.1 · aethoria.omgcraft.fr</div>
+        <h1 class="sr">Aethoria — royaume médiéval Minecraft</h1>
+        <img class="hero-logo" src="aethoria-logo-clean.png" alt="Aethoria">
+        <p class="hero-sub">Un royaume où les couronnes se gagnent — pas où on vous les offre.</p>
+        <div class="hero-btns">
+            <a class="btn" href="#une">En savoir plus</a>
+            <a class="btn btn-green" href="https://aethoria-mc.github.io/aethoria/" target="_blank" rel="noopener">Télécharger le ModPack</a>
+        </div>
+    </div>
+    <div class="chev"></div>
+</section>
+
+<section class="band edge-top" id="une">
+    <div class="wrap">
+        <div class="head rv"><h2>À la une</h2></div>
+        <div class="news">
+            <a class="card lift rv" style="--c:var(--green)" href="https://aethoria-mc.github.io/aethoria/" target="_blank" rel="noopener"><img src="siege-banners.jpg" alt=""><div class="cap"><span class="tag" style="--c:var(--green)">À installer</span><h3>Le ModPack Aethoria</h3></div></a>
+            <a class="card lift rv" style="--c:var(--teal)" href="#carte"><img src="carte-aerienne.jpg" alt=""><div class="cap"><span class="tag" style="--c:var(--teal)">Explorer</span><h3>La carte du monde</h3></div></a>
+            <a class="card lift rv" style="--c:var(--red)" href="#boutique"><img src="city-market.jpg" alt=""><div class="cap"><span class="tag red">WIP</span><h3>Les grades arrivent</h3></div></a>
+            <a class="card lift rv" style="--c:var(--blue)" href="https://discord.gg/pdawT2pS3z" target="_blank" rel="noopener"><img src="rp-group.jpg" alt=""><div class="cap"><span class="tag" style="--c:var(--blue)">Communauté</span><h3>Rejoindre le Discord</h3></div></a>
+        </div>
+    </div>
+</section>
+
+<section class="paper">
+    <div class="wrap about-in">
+        <figure class="frame rv"><img src="castle-dusk.jpg" alt="Château d'Aethoria au crépuscule"></figure>
+        <div class="about-text rv">
+            <h2>Un monde <em>médiéval</em>, écrit par ses joueurs</h2>
+            <p>Aethoria n'est pas un serveur où l'on rejoue l'histoire, c'est un serveur où l'on en écrit une nouvelle. Villes assiégées, empires qui s'effondrent, alliances de circonstance : chaque royaume est bâti par ses joueurs, <b>et par personne d'autre.</b></p>
+        </div>
+    </div>
+</section>
+
+<section class="band" id="univers">
+    <div class="wrap">
+        <div class="head rv"><h2>L'univers</h2></div>
+        <div class="realms">
+            <article class="panel realm lift rv" style="--c:var(--orange)"><div class="pic"><img src="castle-approach.jpg" alt="Chevaliers approchant un château"><span class="seal">C</span></div><div class="body"><h3>Cités</h3><p>Choisissez votre emplacement, montez vos remparts, organisez votre économie. Ce que vous construisez reste debout, visible de tous.</p><span class="tag" style="--c:var(--orange)">Bâtir</span></div></article>
+            <article class="panel realm lift rv" style="--c:var(--red)"><div class="pic"><img src="war-parade.jpg" alt="Armée en marche"><span class="seal">G</span></div><div class="body"><h3>Guerres</h3><p>Pas de mécanique scriptée : les batailles naissent de véritables tensions politiques et se règlent sur le terrain.</p><span class="tag red">Conquérir</span></div></article>
+            <article class="panel realm lift rv" style="--c:var(--blue)"><div class="pic"><img src="ships-fleet.jpg" alt="Flotte de navires"><span class="seal">V</span></div><div class="body"><h3>Voyages</h3><p>Explorez, commercez, fondez un comptoir sur une côte lointaine — ou allez y semer le trouble sous un pavillon qui n'est pas le vôtre.</p><span class="tag" style="--c:var(--blue)">Explorer</span></div></article>
+        </div>
+    </div>
+</section>
+
+<section class="paper">
+    <div class="wrap">
+        <div class="feature rv">
+            <figure class="frame"><img src="night-street.jpg" alt="Rue d'une cité d'Aethoria la nuit"></figure>
+            <div><span class="tag" style="--c:var(--orange)">Les cités</span><h2>Des villes qui vous <em>appartiennent</em></h2><p>Rien n'est instancié : ce que vous construisez reste debout, visible de tous, et défendable par personne d'autre que vous.</p></div>
+        </div>
+        <div class="feature rev rv">
+            <figure class="frame"><img src="knight-portrait.jpg" alt="Chevalier d'Aethoria"></figure>
+            <div><span class="tag red">La guerre</span><h2>Des guerres décidées par les <em>joueurs</em></h2><p>Les batailles se préparent en secret et se règlent sur le terrain, parfois à plusieurs dizaines. Pas de scénario imposé.</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="band deep">
+    <div class="wrap">
+        <div class="head rv"><h2>Ce qui distingue Aethoria</h2><p>Un serveur pensé pour durer, pas pour être consommé en un week-end.</p></div>
+        <div class="why">
+            <div class="panel lift rv" style="--c:var(--orange)"><div class="n">01</div><h3>Plugins forgés maison</h3><p>Développés en interne pour Aethoria — rien de générique copié d'un autre projet.</p></div>
+            <div class="panel lift rv" style="--c:var(--green)"><div class="n">02</div><h3>Zéro avantage acheté</h3><p>Les paliers de soutien restent 100% cosmétiques. Aucun pouvoir en jeu ne s'achète.</p></div>
+            <div class="panel lift rv" style="--c:var(--red)"><div class="n">03</div><h3>Des sièges chaque semaine</h3><p>Batailles rangées et rebondissements de scénario animent le monde en continu.</p></div>
+            <div class="panel lift rv" style="--c:var(--blue)"><div class="n">04</div><h3>Une communauté qui tient</h3><p>Un Discord vivant, un roleplay pris au sérieux, des joueurs présents au quotidien.</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="paper" id="carte">
+    <div class="wrap">
+        <div class="head rv"><h2>La carte d'Aethoria</h2><p>Un continent entier à conquérir, des montagnes enneigées aux déserts, des forêts aux archipels.</p></div>
+        <!-- Carte en direct (plugin AethoriaMap) : remplacez data-api par l'adresse HTTPS publique de votre serveur de carte -->
+        <div class="rv" id="live-map" data-aethoria-map data-api="https://map.aethoria.fr" data-image="carte-aerienne.jpg"></div>
+        <script src="aethoria-map.js" defer></script>
+        <div class="maps" style="margin-top:40px">
+            <figure class="frame rv"><img src="carte-aerienne.jpg" alt="Vue aérienne de la carte d'Aethoria"><figcaption>Vue aérienne</figcaption></figure>
+            <figure class="frame rv"><img src="carte-isometrique.jpg" alt="Vue isométrique de la carte d'Aethoria"><figcaption>Vue isométrique</figcaption></figure>
+        </div>
+    </div>
+</section>
+
+<section class="band">
+    <div class="wrap">
+        <div class="head rv"><h2>Des scènes, pas des captures d'écran</h2><p>Ce que la communauté a bâti — sans mise en scène ajoutée.</p></div>
+        <div class="gal">
+            <figure class="frame lift rv" style="--c:var(--orange)"><img src="knight-portrait.jpg" alt=""><figcaption>Les gardes de la cité</figcaption></figure>
+            <figure class="frame lift rv" style="--c:var(--blue)"><img src="city-market.jpg" alt=""><figcaption>La place du marché</figcaption></figure>
+            <figure class="frame lift rv" style="--c:var(--purple)"><img src="rp-group.jpg" alt=""><figcaption>La communauté en RP</figcaption></figure>
+        </div>
+    </div>
+</section>
+
+<section class="paper" id="boutique">
+    <div class="wrap">
+        <div class="panel shop rv">
+            <span class="tag red">WIP — en construction</span>
+            <h2>Boutique &amp; grades</h2>
+            <p>Le serveur se développe grâce à sa communauté. Les grades, 100% cosmétiques, sont en cours de préparation.</p>
+            <span class="btn btn-off" aria-disabled="true">Bientôt disponible</span>
+        </div>
+    </div>
+</section>
+
+<section class="final" id="modpack">
+    <div class="final-bg"><img src="castle-approach.jpg" alt=""></div>
+    <div class="wrap">
+        <div class="panel rv">
+            <h2>Écrivez votre <em>histoire</em></h2>
+            <p class="lead">Le serveur tourne sur un ModPack dédié pour Minecraft Java 1.20.1. Installez-le avant de vous connecter.</p>
+            <div class="steps">
+                <div class="step" style="--c:var(--orange)"><b>ÉTAPE 1</b><span>Installez le ModPack Aethoria</span></div>
+                <div class="step" style="--c:var(--blue)"><b>ÉTAPE 2</b><span>Lancez Minecraft Java 1.20.1</span></div>
+                <div class="step" style="--c:var(--green)"><b>ÉTAPE 3</b><span>Connectez-vous à aethoria.omgcraft.fr</span></div>
+            </div>
+            <div class="cta-row">
+                <a class="btn btn-green" href="https://aethoria-mc.github.io/aethoria/" target="_blank" rel="noopener">Télécharger le ModPack</a>
+                <a class="btn" style="--c:var(--blue)" href="https://discord.gg/pdawT2pS3z" target="_blank" rel="noopener">Besoin d'aide ? Discord</a>
+            </div>
+            <div class="ip"><span>aethoria.omgcraft.fr</span><button class="copy" id="copy" type="button">Copier</button></div>
+        </div>
+    </div>
+</section>
+
+<section class="band deep" style="padding:84px 0">
+    <div class="wrap">
+        <div class="stats">
+            <div class="stat rv" style="--c:var(--green);--w:55%"><b>1.20.1</b><span>Java Edition</span></div>
+            <div class="stat rv" style="--c:var(--orange);--w:70%"><b>RP · PvP</b><span>Médiéval et géopolitique</span></div>
+            <div class="stat rv" style="--c:var(--red);--w:100%"><b>ModPack</b><span>Requis pour jouer</span></div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <div class="wrap">
+        <div class="fgrid">
+            <div><h4>À propos</h4><p>Aethoria est un serveur Minecraft médiéval roleplay : bâtissez des cités, forgez des alliances, faites la guerre et écrivez votre légende.</p></div>
+            <div><h4>Liens</h4><ul><li><a href="https://aethoria-mc.github.io/aethoria/" target="_blank" rel="noopener">ModPack</a></li><li><a href="#carte">Carte</a></li><li><a href="#boutique">Boutique (WIP)</a></li></ul></div>
+            <div><h4>Communauté</h4><ul><li><a href="https://discord.gg/pdawT2pS3z" target="_blank" rel="noopener">Discord</a></li><li><a href="https://www.youtube.com/@Viczone1" target="_blank" rel="noopener">YouTube</a></li><li><a href="https://youtu.be/WW6Dqu7jxkQ" target="_blank" rel="noopener">Bande-annonce</a></li></ul></div>
+        </div>
+        <div class="legal">© 2026 Aethoria — non affilié à Mojang ou Microsoft Studios.</div>
+    </div>
+</footer>
+
+<script>
+(function(){
+    var bar=document.getElementById('bar'),nav=document.getElementById('nav'),bg=document.getElementById('burger');
+    function s(){bar.classList.toggle('solid',window.scrollY>40)}
+    s();window.addEventListener('scroll',s,{passive:true});
+    bg.addEventListener('click',function(){var o=nav.classList.toggle('open');bg.setAttribute('aria-expanded',o)});
+    nav.addEventListener('click',function(e){if(e.target.closest('a')){nav.classList.remove('open');bg.setAttribute('aria-expanded','false')}});
+    document.getElementById('copy').addEventListener('click',function(){
+        var b=this;function done(){b.textContent='Copié !';setTimeout(function(){b.textContent='Copier'},1800)}
+        if(navigator.clipboard){navigator.clipboard.writeText('aethoria.omgcraft.fr').then(done,done)}else{done()}
+    });
+    document.documentElement.classList.add('js');
+    var els=document.querySelectorAll('.rv');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});
+    els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
